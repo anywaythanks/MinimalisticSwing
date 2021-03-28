@@ -1,6 +1,6 @@
 package minimalistic.plaf;
 
-import javax.swing.plaf.basic.BasicTextUI;
+import javax.swing.plaf.basic.BasicTextFieldUI;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.FocusEvent;
@@ -8,45 +8,22 @@ import java.awt.event.FocusListener;
 
 import static swingTools.Factory.factoryGraphics2D;
 
-public class MinimalisticTextUI extends BasicTextUI implements FocusListener {
+public class MinimalisticTextFieldUI extends BasicTextFieldUI implements FocusListener {
     private final PromptTextComponent promptTextComponent;
-    private PropertyPrefix propertyPrefix;
 
-    public enum PropertyPrefix {
-        TextField, TextArea
-    }
-
-    public void setPropertyPrefix(PropertyPrefix propertyPrefix) {
-        this.propertyPrefix = propertyPrefix;
-    }
-
-    @Override
-    protected String getPropertyPrefix() {
-        return propertyPrefix.toString();
-    }
-
-    public MinimalisticTextUI(PropertyPrefix propertyPrefix) {
-        promptTextComponent = new PromptTextComponent("");
+    public MinimalisticTextFieldUI(String hint) {
+        promptTextComponent = new PromptTextComponent(hint);
         promptTextComponent.addPromptPaint(this::repaint);
-        setPropertyPrefix(propertyPrefix);
     }
 
-    public MinimalisticTextUI(PropertyPrefix propertyPrefix, String prompt) {
-        promptTextComponent = new PromptTextComponent(prompt);
-        promptTextComponent.addPromptPaint(this::repaint);
-        setPropertyPrefix(propertyPrefix);
-    }
-
-    public MinimalisticTextUI(PropertyPrefix propertyPrefix, String prompt, boolean hideOnFocus) {
+    public MinimalisticTextFieldUI(String prompt, boolean hideOnFocus) {
         promptTextComponent = new PromptTextComponent(prompt, hideOnFocus);
         promptTextComponent.addPromptPaint(this::repaint);
-        setPropertyPrefix(propertyPrefix);
     }
 
-    public MinimalisticTextUI(PropertyPrefix propertyPrefix, String prompt, boolean hideOnFocus, Color colorPrompt) {
-        promptTextComponent = new PromptTextComponent(prompt, hideOnFocus, colorPrompt);
+    public MinimalisticTextFieldUI(String hint, boolean hideOnFocus, Color colorPrompt) {
+        promptTextComponent = new PromptTextComponent(hint, hideOnFocus, colorPrompt);
         promptTextComponent.addPromptPaint(this::repaint);
-        setPropertyPrefix(propertyPrefix);
     }
 
     public PromptTextComponent getPromptTextComponent() {
@@ -67,7 +44,6 @@ public class MinimalisticTextUI extends BasicTextUI implements FocusListener {
         super.paintSafely(g2d);
         promptTextComponent.paint(g2d, component);
     }
-
 
     @Override
     protected void installListeners() {
